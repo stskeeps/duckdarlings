@@ -1,5 +1,4 @@
 // app/components/StateFetcher.js
-
 'use client';
 
 import { useState } from 'react';

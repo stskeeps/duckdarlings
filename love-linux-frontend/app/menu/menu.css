@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Podkova:wght@400..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+.background {
+  display: flex;
+
+}
+
+.sidebar {
+  background-color: #f4f4f4e9;
+  width: 340px;
+  height: 100vh;
+  border-right: 3px solid #E85A4F;
+}
+
+.sidebar h1 {
+  font-size: 38pt;
+  line-height: 1.0;
+
+  color: #E85A4F;
+}
+
+.sidebar ul {
+  font-size: 18pt;
+
+}
+
+.padder {
+  padding: 40px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.blackbg {
+  background-color: #000000ae;
+  display: flex;
+  justify-content:center ;
+  align-items: center;
+  padding: 5px;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+

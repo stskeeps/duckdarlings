@@ -1,4 +1,5 @@
-import './globals.css'
+import '../globals.css'
+import './play.css'
 
 import { Web3Modal } from '../../context/web3modal'
 
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Web3Modal>{children}</Web3Modal>
+        {children}
       </body>
     </html>
   )
