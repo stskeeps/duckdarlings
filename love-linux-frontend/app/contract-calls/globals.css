@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background-image: url('/date.webp');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.background {
+  display: flex;
+
+}
+
+.sidebar {
+  background-color: #F4F4F4d0;
+  width: 340px;
+  height: 100vh;
+  border-right: 3px solid rgb(247, 87, 23);
+  color: black;
+}
+
+.blackbg {
+  background-color: #000000ae;
+  display: flex;
+  justify-content:center ;
+  align-items: center;
+  padding: 5px;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
