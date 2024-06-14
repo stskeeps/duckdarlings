@@ -6,12 +6,14 @@ import React, { useState, useEffect } from 'react';
 import FullPageText from '../components/FullPageText';
 import BottomText from '../components/BottomText';
 import VisualNovelText from '../components/VisualNovelText';
+import TextBoxInput from '../components/TextBoxInput';
 
-const FullPage = () => {
+
+const FullPage = ( { fullPageText } : { fullPageText : string } ) => {
   const [text, setText] = useState('');
 
   useEffect(() => {
-    const fullText = 'Your text goes here... Here goes it.. and here it goes';
+    const fullText = fullPageText;
 
     let index = 0;
     const timer = setInterval(() => {
@@ -27,34 +29,101 @@ const FullPage = () => {
     return () => {
       clearInterval(timer);
     };
-  }, []); // Empty dependency array ensures the effect runs only once
+  }, [fullPageText]); // Empty dependency array ensures the effect runs only once
 
   return <FullPageText text={text} />;
 };
 
-const BottomTextPage = () => {
-  let textList = [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident",
-    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-    "qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui ",
-    "in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
-  ]
-  return <BottomText textList={textList} />;
+const BottomTextPage = ( { bottomText } : { bottomText : string } ) => {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    const fullText = bottomText;
+
+    let index = 0;
+    const timer = setInterval(() => {
+      setText(fullText.substring(0, index));
+      index++;
+
+      if (index > fullText.length) {
+        clearInterval(timer);
+      }
+    }, 5); // Adjust the interval for text loading speed
+
+    // Cleanup function to clear interval when component unmounts
+    return () => {
+      clearInterval(timer);
+    };
+  }, [bottomText]); // Empty dependency array ensures the effect runs only once
+
+ 
+  return <BottomText text={text} />;
 };
 
-const VisualNovelPage = () => {
-  const text = 'Your visual novel text goes here...';
-  const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+const VisualNovelPage = ({ opts, buttonCallback } : { opts: string[], buttonCallback: any } ) => {
+  let options = (['Option 1', 'Option 2', 'Option 3']);
 
-  return <VisualNovelText text={text} options={options} />;
+  if (opts) {
+    options = (opts)
+  }
+
+  return <VisualNovelText options={options} buttonCallback={buttonCallback} />;
 };
 
 export default function Play() {
   const [text, setText] = useState('');
-  const [showOptions, setShowOptions] = useState(true);
+  const [options, setOptions] = useState([]);
+  const [sceneType, setSceneType] = useState(0);
+  const [dialog, setDialog] = useState(0)
+  const [penguin, setPenguin] = useState("")
+  const [name, setName] = useState("")
+  const [reply, setReply] = useState("")
+
+
   let bg = "Scene_1_Cafe.png"
-  let fullText = false
-  let shortText = !fullText
+
+  async function getNextStep() {
+    try {
+      const res = await fetch(`/api/getNextDialog?current_dialog=${dialog}`);
+      const data = await res.json();
+
+      if (res.ok) {
+        data.text && setText(data.text.replaceAll('Y/N', name))
+        data.options && setOptions(data.options)
+        let pengTemp = ""
+        data.showPenguin && (pengTemp = `/Penguin_Scene_${data.showPenguin}.png`)
+        setPenguin(pengTemp)
+        data.type && setSceneType(data.type) 
+        setDialog(dialog + 1)
+        console.log("dialog", dialog)
+      } else {
+        console.log("error")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getNextStep() // This will be executed when the state changes
+  }, [name, reply]);
+
+  async function getTextReply(value: string) {
+    console.log(dialog)
+    console.log(value)
+    if (dialog == 2) {
+      setName(value)
+      console.log("n", name)
+      
+    }
+  }
+
+  async function getButtonReply(value: string) {
+    setReply(value)
+    console.log("reply")
+    console.log(value)
+  }
+
   return (
     <div style={{
       backgroundImage: `url(${bg})`,
@@ -64,18 +133,32 @@ export default function Play() {
       width: '100%'
     }}>
 
-      {showOptions && 
-        <VisualNovelPage />
+      
+      {penguin && 
+        <Image className="peng" src={penguin} alt="" width={600} height={600} /> 
+      }   
+
+      {(sceneType == 2) && 
+        <VisualNovelPage opts={options} buttonCallback={getButtonReply} />
       }
       
-      {fullText &&
-        <FullPage />
+      {(sceneType == 0 || sceneType == 3) &&
+        <FullPage fullPageText={text} />
       }
 
-      {shortText &&
-        <BottomTextPage />
+      {(sceneType == 1 || sceneType == 2) &&
+        <BottomTextPage bottomText={text} />
       }
 
+      {(sceneType == 3) &&
+        <TextBoxInput callback={getTextReply}/>
+      }
+
+      {(sceneType != 2 && sceneType != 3) &&
+        <button className="next-dialog"
+        onClick={ () => getNextStep()}>
+          Next
+      </button>}
     </div>
   );
 }

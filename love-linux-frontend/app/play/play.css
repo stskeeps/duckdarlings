@@ -25,6 +25,7 @@
   position: absolute;
   bottom: 0;
   font-size: 16pt;
+  z-index: 2;
 }
 
 .full-page-text {
@@ -36,6 +37,13 @@
   width: 70%;
   margin: auto;
   height: 100%;
+}
+
+.full-page-text .text-wrapper {
+  height: 90%;
+  overflow: scroll;
+  text-align: center;
+  padding-top: 50px;
 }
 
 .next-text {
@@ -57,11 +65,56 @@
 }
 
 .visual-novel-button {
-  background: linear-gradient(90deg, rgba(0,0,0,0) 0%, #E85A4F 15%, #E85A4F 85%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(90deg, rgba(0,0,0,0) 0%, #e8594fe0 15%, #E85A4Fe0 85%, rgba(255,255,255,0) 100%);
   width: 60%;
   height: 50px;
   color:aliceblue;
+  z-index: 10;
+}
 
+.next-dialog {
+  color: #E85A4F;
+  position: absolute;
+  bottom: 5px;
+  right: 7%;
+  font-size: 18pt;
+  font-weight: 700;
+  z-index: 10;
+}
+
+.submit-text {
+  margin: auto;
+  display: flex;
+  height: 100%;
+  width: 300px;
+  z-index: 30;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.text-input {
+  width: 400px;
+  height: 50px;
+  margin-bottom: 5px;
+  text-align: center;
+  border: 1px solid #E85A4F;
+}
+
+.button-color {
+  background-color: #E85A4F;
+  width: 200px;
+  height: 40px;
+  color: #f4f4f4;
+}
+
+.peng {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 600px;
+  height: 600px;
 }
 
 .blackbg {
