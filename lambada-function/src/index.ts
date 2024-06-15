@@ -2,6 +2,7 @@ import createClient from "openapi-fetch";
 import { components, paths } from "./schema";
 import process from "process";
 import { create } from "kubo-rpc-client";
+import crypto from "crypto";
 
 type AdvanceRequestData = components["schemas"]["Advance"];
 type RequestHandlerResult = components["schemas"]["Finish"]["status"];
@@ -64,10 +65,25 @@ const handleAdvance: AdvanceRequestHandler = async (
     }
     console.log("State opened successfully.");
   }
+  if (!(await existFileIpfs("/state"))) {
+    await ipfs.files.mkdir("/state");
+  }
+  if (!(await existFileIpfs("/state/tx"))) {
+    await ipfs.files.mkdir("/state/tx");
+  }
+  const tx = Buffer.from(data.payload.slice(2), "hex");
+  const hash = crypto.createHash("sha256").update(tx).digest("hex");
 
-  await writeFileIpfs("/state/test", "test");
+  if (!(await existFileIpfs("/state/tx/" + hash)))  {
+    console.log("writing tx " + hash);
+    await writeFileIpfs("/state/tx/" + hash, "");
+
+    // this is not a duplicate, so do our thing here
+  } 
+  // we ignore the tx for now but should really make an exception here
+
   // unless something happens we will commit in the end, else we cause an exception
-
+  
   // Make a GET request to commit_state endpoint if we have a lambada server
   if (lambadaServer) {
     const commitStateResponse = await fetch(`${lambadaServer}/commit_state`);
