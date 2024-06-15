@@ -1,7 +1,7 @@
 import createClient from "openapi-fetch";
 import { components, paths } from "./schema";
 import process from "process";
-import { create } from 'kubo-rpc-client'
+import { create } from "kubo-rpc-client";
 
 type AdvanceRequestData = components["schemas"]["Advance"];
 type RequestHandlerResult = components["schemas"]["Finish"]["status"];
@@ -10,8 +10,8 @@ type AdvanceRequestHandler = (
   data: AdvanceRequestData
 ) => Promise<RequestHandlerResult>;
 
-const apiUrl = process.env.IPFS_API || 'http://127.0.0.1:5001'
-const ipfs = create({ url: apiUrl })
+const apiUrl = process.env.IPFS_API || "http://127.0.0.1:5001";
+const ipfs = create({ url: apiUrl });
 
 const rollupServer = process.env.ROLLUP_HTTP_SERVER_URL;
 console.log("HTTP rollup_server url is " + rollupServer);
@@ -21,62 +21,67 @@ console.log("Lambada server url is " + lambadaServer);
 
 async function existFileIpfs(path: string): Promise<boolean> {
   try {
-    await ipfs.files.stat(path)
-    return true
+    await ipfs.files.stat(path);
+    return true;
   } catch (error) {
-    if ((error as Error).message.includes('file does not exist')) return false
-    throw error
+    if ((error as Error).message.includes("file does not exist")) return false;
+    throw error;
   }
 }
 
 async function readFileIpfs(path: string): Promise<string> {
   try {
-    const chunks = []
+    const chunks = [];
     for await (const chunk of ipfs.files.read(path)) {
-      chunks.push(chunk)
+      chunks.push(chunk);
     }
-    const data = Buffer.concat(chunks).toString()
-    return data
+    const data = Buffer.concat(chunks).toString();
+    return data;
   } catch (error) {
-    if ((error as Error).message.includes('file does not exist')) return ''
-    throw error
+    if ((error as Error).message.includes("file does not exist")) return "";
+    throw error;
   }
 }
 
 async function writeFileIpfs(path: string, data: string): Promise<void> {
-  const exist = await existFileIpfs(path)
-  if (exist) await ipfs.files.rm(path) // Remove file if exists (if new data is less than old data, the old data will remain in the file)
-  await ipfs.files.write(path, data, { create: true })
+  const exist = await existFileIpfs(path);
+  if (exist) await ipfs.files.rm(path); // Remove file if exists (if new data is less than old data, the old data will remain in the file)
+  await ipfs.files.write(path, data, { create: true });
 }
 
-const handleAdvance: AdvanceRequestHandler = async (data: AdvanceRequestData) => {
+const handleAdvance: AdvanceRequestHandler = async (
+  data: AdvanceRequestData
+) => {
   console.log("Received advance request data " + JSON.stringify(data));
   // Make a GET request to open_state endpoint
-        if (lambadaServer) {
-          const openStateResponse = await fetch(`${lambadaServer}/open_state`);
-          // Optional: Check if the request was successful
-          if (!openStateResponse.ok) {
-              throw new Error(`Failed to open state: ${openStateResponse.status} ${openStateResponse.statusText}`);
-          }
-          console.log('State opened successfully.');
-        }
+  if (lambadaServer) {
+    const openStateResponse = await fetch(`${lambadaServer}/open_state`);
+    // Optional: Check if the request was successful
+    if (!openStateResponse.ok) {
+      throw new Error(
+        `Failed to open state: ${openStateResponse.status} ${openStateResponse.statusText}`
+      );
+    }
+    console.log("State opened successfully.");
+  }
 
-        await writeFileIpfs("/state/test", "test");
-        // unless something happens we will commit in the end, else we cause an exception
+  await writeFileIpfs("/state/test", "test");
+  // unless something happens we will commit in the end, else we cause an exception
 
-        // Make a GET request to commit_state endpoint if we have a lambada server
-        if (lambadaServer) {
-          const commitStateResponse = await fetch(`${lambadaServer}/commit_state`);
-          // Optional: Check if the request was successful
-          if (!commitStateResponse.ok) {
-              throw new Error(`Failed to commit state: ${commitStateResponse.status} ${commitStateResponse.statusText}`);
-          }
-          // This will never show as we did the job and the runtime stopped us
-          console.log('State committed successfully.');  
-        }
-        return "accept";
+  // Make a GET request to commit_state endpoint if we have a lambada server
+  if (lambadaServer) {
+    const commitStateResponse = await fetch(`${lambadaServer}/commit_state`);
+    // Optional: Check if the request was successful
+    if (!commitStateResponse.ok) {
+      throw new Error(
+        `Failed to commit state: ${commitStateResponse.status} ${commitStateResponse.statusText}`
+      );
+    }
+    // This will never show as we did the job and the runtime stopped us
+    console.log("State committed successfully.");
+  }
+  return "accept";
 };
-
 
 const main = async () => {
   const { POST } = createClient<paths>({ baseUrl: rollupServer });
