@@ -742,13 +742,19 @@ let dialogData = [
     showPenguin: 5
   },
   {
-    scene: 5,
+    scene: 2,
+    type: 0,
+    text: "You wake up.",
+    showPenguin: 0
+  },
+  {
+    scene: 2,
     type: 1,
     text: "Y/N: What the…",
     showPenguin: 0
   },
   {
-    scene: 5,
+    scene: 2,
     type: 0,
     text: "Maybe I should take a few days off and detox myself from Cartesi.",
     showPenguin: 0
