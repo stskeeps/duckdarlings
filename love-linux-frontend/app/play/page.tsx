@@ -71,6 +71,7 @@ const VisualNovelPage = ({ opts, buttonCallback } : { opts: string[], buttonCall
 };
 
 export default function Play() {
+  const [bg, setBg] = useState(1);
   const [text, setText] = useState('');
   const [options, setOptions] = useState([]);
   const [sceneType, setSceneType] = useState(0);
@@ -80,14 +81,13 @@ export default function Play() {
   const [reply, setReply] = useState("")
 
 
-  let bg = "Scene_1_Cafe.png"
-
   async function getNextStep() {
     try {
       const res = await fetch(`/api/getNextDialog?current_dialog=${dialog}`);
       const data = await res.json();
 
       if (res.ok) {
+        data.scene && setBg(data.scene)
         data.text && setText(data.text.replaceAll('Y/N', name))
         data.options && setOptions(data.options)
         let pengTemp = ""
@@ -125,13 +125,14 @@ export default function Play() {
   }
 
   return (
-    <div style={{
-      backgroundImage: `url(${bg})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      height: '100vh',
-      width: '100%'
-    }}>
+    
+      <div style={{
+        backgroundImage: `url(Scene_${(bg)}.png)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+        width: '100%'
+      }}>
 
       
       {penguin && 
