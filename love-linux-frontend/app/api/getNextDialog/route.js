@@ -6,7 +6,8 @@ let dialogData = [
   { 
     scene: 1,
     type: 0,
-    text: "You make your way to the counter at a cute coffee cafe after the first day of your work at your new job\n\nThe barista hands you a flat white, complete with a recycled paper sleeve and your name written on the side.",
+    text: `You make your way to the counter at a cute coffee cafe after the first day of your work at your new job.
+    The barista hands you a flat white, complete with a recycled paper sleeve and your name written on the side.`,
     showPenguin: 0
   },
   {
@@ -38,12 +39,6 @@ let dialogData = [
     type: 1,
     text: "You lift your head to see…",
     showPenguin: 0
-  },
-  {
-    scene: 1,
-    type: 1,
-    text: "(Penguin Linux lol)",
-    showPenguin: 1
   },
   {
     scene: 1,
@@ -112,8 +107,11 @@ let dialogData = [
   {
     scene: 1,
     type: 1,
-    text: "LLM",
-    showPenguin: 1
+    text: `Linux: Ah, easy one! I'm a huge fan of 'Frosty Frenzy' - the game where you get 
+    to waddle around and knock over penguin-sized obstacles. It's all about 
+    strategy, speed, and... well, let's just say it's a real hoot!`,
+    showPenguin: 1,
+    LLM: true
   },
   {
     scene: 1,
@@ -146,8 +144,9 @@ let dialogData = [
   {
     scene: 1,
     type: 1,
-    text: "LLM",
-    showPenguin: 1
+    text: "Linux: Honestly, I've been so stuck on this design that I'm starting to think I'll never get it right – and what's the point of even showing up if my game isn't ready?",
+    showPenguin: 1,
+    LLM: true
   },
   {
     scene: 1,
@@ -195,12 +194,6 @@ let dialogData = [
     scene: 2,
     type: 0,
     text: "Going through your wardrobe, you choose your outfit.",
-    showPenguin: 0
-  },
-  {
-    scene: 2,
-    type: 1,
-    text: "Which one do you choose?",
     showPenguin: 0
   },
   {
@@ -252,8 +245,10 @@ let dialogData = [
   {
     scene: 3,
     type: 1,
-    text: "LLM",
-    showPenguin: 3
+    text: `Linux: Ah, nice choice on the outfit – you're really rocking the whole 'everyday 
+    elegance' vibe, aren't you?`,
+    showPenguin: 3,
+    LLM: true
   },
   {
     scene: 3,
@@ -280,8 +275,10 @@ let dialogData = [
   {
     scene: 3,
     type: 1,
-    text: "LLM",
-    showPenguin: 3
+    text: `Linux: Oh, no, I think we've just begun to scratch the surface – but I'm happy 
+    to keep exploring with someone as charming as you`,
+    showPenguin: 3,
+    LLM: true
   },
   {
     scene: 3,
@@ -344,8 +341,11 @@ let dialogData = [
   {
     scene: 3,
     type: 1,
-    text: "LLM",
-    showPenguin: 3
+    text: `Linux: You know, I think you're onto something – sometimes the best solutions 
+    come from embracing uncertainty and just going with the flow. And who 
+    knows, maybe I'll even learn to waddle in the right direction`,
+    showPenguin: 3,
+    LLM: true
   },
   {
     scene: 3,
@@ -366,8 +366,11 @@ let dialogData = [
   {
     scene: 3,
     type: 1,
-    text: "LLM",
-    showPenguin: 3
+    text: `Linux: Ah, a gamer at heart, I love it! And I'm sure your competitive streak 
+    will come in handy when we're trying to crush each other's high scores in 
+    our game`,
+    showPenguin: 3,
+    LLM: true
   },
   {
     scene: 3,
@@ -396,7 +399,13 @@ let dialogData = [
   {
     scene: 3,
     type: 1,
-    text: "Linux smiles\nLinux: Let's do it!",
+    text: "Linux smiles",
+    showPenguin: 3
+  },
+  {
+    scene: 3,
+    type: 1,
+    text: "Linux: Let's do it!",
     showPenguin: 3
   },
   {
@@ -407,7 +416,7 @@ let dialogData = [
   },
   {
     scene: 3,
-    type: 0,
+    type: 1,
     text: "As you get home you check your phone to see a text from Linux\n\"Thank you for today, can't wait to see you again\"",
     showPenguin: 0
   },
@@ -423,7 +432,7 @@ let dialogData = [
   },
   {
     scene: 3,
-    type: 0,
+    type: 1,
     text: "You go to bed",
     showPenguin: 0
   },
@@ -482,8 +491,9 @@ let dialogData = [
   {
     scene: 4,
     type: 1,
-    text: "LLM",
-    showPenguin: 4
+    text: "Linux: Ah, I see - so it's going to be a game that really brings out the drama and excitement, huh?",
+    showPenguin: 4,
+    LLM: true
   },
   {
     scene: 4,
@@ -505,13 +515,16 @@ let dialogData = [
       "Park",
       "Game convention"
     ],
-    showPenguin: 4
+    showPenguin: 4,
+    
   },
   {
     scene: 4,
     type: 1,
-    text: "LLM",
-    showPenguin: 4
+    text: `Linux: I like where this is going... so we're talking a game that's all about 
+    outdoor adventure and maybe even a little bit of competition in the park?`,
+    showPenguin: 4,
+    LLM: true
   },
   {
     scene: 4,
@@ -578,8 +591,9 @@ let dialogData = [
   {
     scene: 4,
     type: 1,
-    text: "LLM",
-    showPenguin: 4
+    text: `Linux: Ow! What's wrong, can't handle a little penguin love?`,
+    showPenguin: 4,
+    LLM: true
   },
   {
     scene: 4,
@@ -642,8 +656,11 @@ let dialogData = [
   {
     scene: 5,
     type: 1,
-    text: "LLM",
-    showPenguin: 5
+    text: `Linux: Ah, don't worry, we'll get through it together! I'm actually pretty good 
+    at public speaking, maybe you can learn a thing or two from me... and who 
+    knows, maybe we'll even have some fun with the presentation`,
+    showPenguin: 5,
+    LLM: true
   },
   {
     scene: 5,
@@ -711,8 +728,12 @@ let dialogData = [
   {
     scene: 5,
     type: 1,
-    text: "LLM",
-    showPenguin: 5
+    text: `Linux: Ha! Finally, someone's got some guts around here! And as for you, 
+    Y/N... you're just mad because I stole the spotlight and showed 
+    you up. You're nothing but a weak, pathetic human trying to take down a 
+    mastermind like me!`,
+    showPenguin: 5,
+    LLM: true
   },
   {
     scene: 5,
@@ -728,7 +749,7 @@ let dialogData = [
   },
   {
     scene: 5,
-    type: 1,
+    type: 0,
     text: "Maybe I should take a few days off and detox myself from Cartesi.",
     showPenguin: 0
   },
